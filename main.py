@@ -1,16 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os  # Added import
 
 app = Flask(__name__)
 CORS(app)  # This allows requests from HTML/JavaScript in your browser
 
 # In-memory list to store students
-# In-memory list to store students
 students = [
     {'id': 1, 'name': 'John', 'age': 20}  # Default student
 ]
 next_id = 2  # Start from 2 since 1 is already taken
-
 
 # ------------------------
 # Create a Student
@@ -19,7 +18,7 @@ next_id = 2  # Start from 2 since 1 is already taken
 def create_student():
     global next_id
     data = request.get_json()
-    
+
     # Validate input
     if not data or 'name' not in data or 'age' not in data:
         return jsonify({'error': 'Name and age are required.'}), 400
@@ -81,8 +80,6 @@ def delete_student(student_id):
 # ------------------------
 # Run the app
 # ------------------------
-
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use PORT env variable or default to 5000 locally
     app.run(host="0.0.0.0", port=port)
